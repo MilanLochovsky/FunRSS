@@ -1,3 +1,4 @@
+/*
 package cz.icure.funrss;
 
 import java.io.InputStream;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import cz.icure.funrss.RSSReaderUtils.RSSItem;
+
 import android.sax.Element;
 import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
@@ -18,6 +21,7 @@ import android.sax.RootElement;
 import android.util.Log;
 import android.util.Xml;
 
+/*
 public class RSSParser {
 	private URL feedUrl;
 	private List<RSSItem> parsedFeed;
@@ -105,7 +109,6 @@ public class RSSParser {
                 try {
 					currentMessage.setDateTime(formatter.parse(body));
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
@@ -122,3 +125,4 @@ public class RSSParser {
 	}
 	
 }
+*/
