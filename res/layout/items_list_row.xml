@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/list_selector"
     android:gravity="top"
-    android:orientation="vertic"
+    android:orientation="vertical"
     android:padding="10dip" >
 
     <TextView

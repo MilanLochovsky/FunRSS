@@ -58,7 +58,8 @@ public class RSSFeedsActivity extends Activity {
             break;
             
         case R.id.menu_feeds_add:
-        	// Reload feedu
+        	Intent intent = new Intent(this, RSSFeedSettingsActivity.class);
+            startActivity(intent);
             break;
             
         }
@@ -83,7 +84,9 @@ public class RSSFeedsActivity extends Activity {
 		switch (item.getItemId()) {
 		 
         case R.id.menu_context_edit:
-            // Edit
+    		Intent intent = new Intent(this, RSSFeedSettingsActivity.class);
+    		intent.putExtra("ID", info.id);
+            startActivity(intent);
             break;
             
         case R.id.menu_context_delete:
