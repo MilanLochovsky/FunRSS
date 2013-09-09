@@ -1,42 +1,8 @@
 package cz.icure.funrss;
 
-import java.util.Date;
-
 import android.provider.BaseColumns;
 
-public class RSSReaderUtils {
-	
-	public class RSSItem {
-		public String title;
-		public String url;
-		public String description;
-		public Date dateTime;
-	}
-	
-	public class FeedItem {
-		public Integer id;
-		public String title;
-		public String url;
-		public String description;
-		public String image;
-		public String copyright;
-		
-		public FeedItem(Integer id, String title, String url, String description, String image, String copyright) {
-			this.id = id;
-			this.title = title;
-			this.url = url;
-			this.description = description;
-			this.image = image;
-			this.copyright = copyright;
-		}
-		
-		public FeedItem() {
-		}
-	}
-	
-	public RSSReaderUtils() {
-		
-	}
+public abstract class RSSReaderUtils {
 	
 	public static abstract class ItemsTable implements BaseColumns {
 		public static final String TABLE_NAME = "items";

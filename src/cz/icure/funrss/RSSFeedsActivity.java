@@ -2,8 +2,6 @@ package cz.icure.funrss;
 
 import java.util.List;
 
-import cz.icure.funrss.RSSReaderUtils.FeedItem;
-
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -71,7 +69,7 @@ public class RSSFeedsActivity extends Activity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
       if (v.getId()==R.id.feedslist) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-        menu.setHeaderTitle(_data.get(info.position).title);
+        menu.setHeaderTitle(_data.get(info.position).getTitle());
         getMenuInflater().inflate(R.menu.menu_context_feeds, menu);
       }
     }

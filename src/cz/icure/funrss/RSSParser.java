@@ -1,139 +1,109 @@
 package cz.icure.funrss;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import cz.icure.funrss.RSSReaderUtils.FeedItem;
-import cz.icure.funrss.RSSReaderUtils.RSSItem;
-
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import android.sax.Element;
-import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
 import android.sax.RootElement;
+import android.sax.StartElementListener;
 import android.util.Log;
 import android.util.Xml;
 
-
 public class RSSParser {
 	private URL feedUrl;
+	private FeedItem channel;
 	private List<RSSItem> parsedFeed;
 	private String downloadedFeed;
-	
-	static final  String PUB_DATE = "pubDate";
-    static final  String DESCRIPTION = "description";
-    static final  String CONTENT = "content";
-    static final  String LINK = "link";
-    static final  String TITLE = "title";
-    static final  String IMAGE = "image";
-    static final  String ITEM = "item";
-	
-	RSSParser(String url) {
-		
+
+	static final String PUB_DATE = "pubDate";
+	static final String DESCRIPTION = "description";
+	static final String CONTENT = "content";
+	static final String LINK = "link";
+	static final String TITLE = "title";
+	static final String IMAGE = "image";
+	static final String ITEM = "item";
+
+	public RSSParser(String url) {
+
 		try {
 			this.feedUrl = new URL(url);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.parsedFeed = new ArrayList<RSSItem>();
 	}
-	
+
 	private InputStream getFeedStream() {
-		
+
 		try {
-	        URLConnection connection = this.feedUrl.openConnection();
-	        connection.connect();
-	        connection.setReadTimeout(1000);
-	        
-	        return connection.getInputStream();
-		}
-		catch(SocketTimeoutException e) {
+			URLConnection connection = this.feedUrl.openConnection();
+			connection.connect();
+			connection.setReadTimeout(1000);
+
+			return connection.getInputStream();
+		} catch (SocketTimeoutException e) {
 			Log.e("TIMEOUT", e.toString());
 			e.printStackTrace();
-			
+
 			return null;
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			Log.e("", e.toString());
 			e.printStackTrace();
-			
+
 			return null;
 		}
 	}
-	
-	public FeedItem ParseFeedHeader() {
-		FeedItem fi = new FeedItem();
-		RootElement root = new RootElement("rss");
-		Element channel = root.getChild("channel");
-		
 
-		
-	}
-	
-	/*
-	public List<RSSItem> ParseFeed() {
-		final List<RSSItem> messages = new ArrayList<RSSItem>();
-		final RSSItem currentMessage = new RSSItem();
-		
+	public FeedItem ParseFeedHeader() {
 		RootElement root = new RootElement("rss");
-		Element channel = root.getChild("channel");
-		Element item = channel.getChild(ITEM);
-		final SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
-		
-		item.setEndElementListener(new EndElementListener() {
-			public void end() {
-				messages.add(currentMessage.copy());
+		Element chanElement = root.getChild("channel");
+		Element chanTitle = chanElement.getChild("title");
+		Element chanDescription = chanElement.getChild("description");
+		Element chanImage = chanElement.getChild("image");
+
+		chanElement.setStartElementListener(new StartElementListener() {
+			public void start(Attributes attributes) {
+				channel = new FeedItem();
 			}
 		});
-		
-		item.getChild(TITLE).setEndTextElementListener(
-				new EndTextElementListener() {
-					public void end(String body) {
-						currentMessage.setTitle(body);
-					}
-				});
-		
-		item.getChild(LINK).setEndTextElementListener(
-				new EndTextElementListener() {
-					public void end(String body) {
-						currentMessage.setUrl(body);
-					}
-				});
-		
-		item.getChild(DESCRIPTION).setEndTextElementListener(
-				new EndTextElementListener() {
-					public void end(String body) {
-						currentMessage.setDescription(body);
-					}
-				});
-		
-		item.getChild(PUB_DATE).setEndTextElementListener(new EndTextElementListener(){
-            public void end(String body) {
-                try {
-					currentMessage.setDateTime(formatter.parse(body));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-            }
-        });
-		
+
+		chanTitle.setEndTextElementListener(new EndTextElementListener() {
+			public void end(String body) {
+				channel.setTitle(body);
+			}
+		});
+
+		chanDescription.setEndTextElementListener(new EndTextElementListener() {
+			public void end(String body) {
+				channel.setDescription(body);
+			}
+		});
+
+		chanImage.setEndTextElementListener(new EndTextElementListener() {
+			public void end(String body) {
+				channel.setImage(body);
+			}
+		});
+
 		try {
-			Xml.parse(this.getFeedStream(), Xml.Encoding.UTF_8,
-					root.getContentHandler());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+			Xml.parse(this.getFeedStream(), Xml.Encoding.UTF_8, root.getContentHandler());
+			return channel;
+		} catch (SAXException e) {
+			// handle the exception
+		} catch (IOException e) {
+			// handle the exception
 		}
-		
-		return messages;
+
+		return channel;
 	}
-	*/
-	
+
 }

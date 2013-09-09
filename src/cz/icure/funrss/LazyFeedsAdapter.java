@@ -2,8 +2,6 @@ package cz.icure.funrss;
 
 import java.util.List;
 
-import cz.icure.funrss.RSSReaderUtils.FeedItem;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -36,7 +34,7 @@ public class LazyFeedsAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int position) {
-		return data.get(position).id;
+		return data.get(position).getId();
 	}
 	
 	@Override
@@ -51,8 +49,8 @@ public class LazyFeedsAdapter extends BaseAdapter {
  
         FeedItem item = data.get(position);
  
-        title.setText(item.title);
-        description.setText(item.description);
+        title.setText(item.getTitle());
+        description.setText(item.getCopyright());
         thumb_image.setImageResource(R.drawable.rihanna);
         return vi;
 	}

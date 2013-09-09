@@ -38,6 +38,9 @@ public class RSSFeedSettingsActivity extends PreferenceActivity {
                     public boolean onPreferenceChange(Preference p,
                             Object newValue) {
                         // Set the summary based on the new label.
+                    	RSSParser rsp = new RSSParser((String) newValue);
+                    	FeedItem header =  rsp.ParseFeedHeader();
+                    	((EditTextPreference) findPreference("label")).setSummary(header.getTitle());;
                         p.setSummary((String) newValue);
                         return true;
                     }

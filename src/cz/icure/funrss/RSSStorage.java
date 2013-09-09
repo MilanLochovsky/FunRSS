@@ -3,7 +3,6 @@ package cz.icure.funrss;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.icure.funrss.RSSReaderUtils.FeedItem;
 import cz.icure.funrss.RSSReaderUtils.FeedsTable;
 
 import android.content.ContentValues;
@@ -56,7 +55,7 @@ public class RSSStorage {
     	
     	if (q.moveToFirst()) {
     		do {
-	    		fi.add(new RSSReaderUtils().new FeedItem(q.getInt(q.getColumnIndex(FeedsTable._ID)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_TITLE)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_LINK)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_DESCRIPTION)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_IMAGE)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_COPYRIGHT))));
+	    		fi.add(new FeedItem(q.getInt(q.getColumnIndex(FeedsTable._ID)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_TITLE)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_LINK)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_DESCRIPTION)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_IMAGE)), q.getString(q.getColumnIndex(FeedsTable.COLUMN_NAME_COPYRIGHT))));
     		} while(q.moveToNext());
 		}
     	
