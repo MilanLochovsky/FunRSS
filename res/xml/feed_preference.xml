@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        android:title="Titlak">
-    <Preference android:key="time" 
+        android:title="Přidat nový feed">
+	<EditTextPreference android:key="url"
         android:persistent="false"
-        android:title="Titlous"/>
-    <CheckBoxPreference android:key="vibrate" 
-        android:persistent="false"
-        android:title="Titlous"/>
+        android:title="Url feedu"
+        android:dialogTitle="Zadejte url feedu"
+        />
     <EditTextPreference android:key="label"
         android:persistent="false"
-        android:title="Dalsi titlel"
-        android:dialogTitle="Dialog title" />
+        android:title="Nazev feedu"
+        android:dialogTitle="Zadejte nazev feedu"
+        />   
+    <CheckBoxPreference android:key="login" 
+        android:persistent="false"
+        android:title="Prihlášení"
+        android:summary="Chcete přihlásit pro stáhnutí feedu?"
+        />
+    <EditTextPreference android:key="loginUsername"
+        android:persistent="false"
+        android:enabled="false"
+        android:title="Uživatel"
+        />
+    <EditTextPreference android:key="loginPassword"
+        android:persistent="false"
+        android:enabled="false"
+        android:title="Heslo"
+        />
 </PreferenceScreen>
 

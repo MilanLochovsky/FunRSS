@@ -34,10 +34,10 @@
         
          <activity android:name="cz.icure.funrss.RSSFeedSettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="cz.icure.funrss.RSSFeedsActivity">
+            android:parentActivityName="cz.icure.funrss.RSSFeedSettingsActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="cz.icure.funrss.RSSFeedsActivity" />
-        </activity>
+         </activity>
         
          <activity android:name="cz.icure.funrss.RSSFeedsActivity"
             android:label="@string/activity_title_feeds"

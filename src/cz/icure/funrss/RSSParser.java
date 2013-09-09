@@ -1,4 +1,3 @@
-/*
 package cz.icure.funrss;
 
 import java.io.InputStream;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import cz.icure.funrss.RSSReaderUtils.FeedItem;
 import cz.icure.funrss.RSSReaderUtils.RSSItem;
 
 import android.sax.Element;
@@ -21,7 +21,7 @@ import android.sax.RootElement;
 import android.util.Log;
 import android.util.Xml;
 
-/*
+
 public class RSSParser {
 	private URL feedUrl;
 	private List<RSSItem> parsedFeed;
@@ -32,6 +32,7 @@ public class RSSParser {
     static final  String CONTENT = "content";
     static final  String LINK = "link";
     static final  String TITLE = "title";
+    static final  String IMAGE = "image";
     static final  String ITEM = "item";
 	
 	RSSParser(String url) {
@@ -68,6 +69,16 @@ public class RSSParser {
 		}
 	}
 	
+	public FeedItem ParseFeedHeader() {
+		FeedItem fi = new FeedItem();
+		RootElement root = new RootElement("rss");
+		Element channel = root.getChild("channel");
+		
+
+		
+	}
+	
+	/*
 	public List<RSSItem> ParseFeed() {
 		final List<RSSItem> messages = new ArrayList<RSSItem>();
 		final RSSItem currentMessage = new RSSItem();
@@ -123,6 +134,6 @@ public class RSSParser {
 		
 		return messages;
 	}
+	*/
 	
 }
-*/

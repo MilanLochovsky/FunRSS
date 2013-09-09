@@ -29,6 +29,9 @@ public class RSSReaderUtils {
 			this.image = image;
 			this.copyright = copyright;
 		}
+		
+		public FeedItem() {
+		}
 	}
 	
 	public RSSReaderUtils() {
