@@ -11,12 +11,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LazyFeedsAdapter extends BaseAdapter {
+public class LazyItemsAdapter extends BaseAdapter {
 	private Activity activity;
-    private List<FeedItem> data;
+    private List<RSSItem> data;
     private static LayoutInflater inflater=null;
 	
-	public LazyFeedsAdapter(Activity a, List<FeedItem> d) {
+	public LazyItemsAdapter(Activity a, List<RSSItem> d) {
 		this.activity = a;
 		this.data = d;
 		inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,21 +41,20 @@ public class LazyFeedsAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View vi=convertView;
         if(convertView==null)
-            vi = inflater.inflate(R.layout.feesd_list_row, null);
+            vi = inflater.inflate(R.layout.items_list_row, null);
  
-        TextView title = (TextView)vi.findViewById(R.id.title); // title
-        TextView description = (TextView)vi.findViewById(R.id.description); // artist name
-        ImageView thumb_image =(ImageView)vi.findViewById(R.id.list_image); // thumb image
+        TextView title = (TextView)vi.findViewById(R.id.items_title); // title
+        TextView description = (TextView)vi.findViewById(R.id.items_description); // artist name
  
-        FeedItem item = data.get(position);
+        RSSItem item = data.get(position);
  
-        title.setText(item.getTitle());
-        description.setText(item.getDescription());
-        thumb_image.setImageResource(R.drawable.rihanna);
+        title.setText("" + item.getTitle());
+        description.setText( "" + item.getDescription());
+        
         return vi;
 	}
 
-	public void notifyDataSetChanged(List<FeedItem> d) {
+	public void notifyDataSetChanged(List<RSSItem> d) {
 		this.data = d;
 		super.notifyDataSetChanged();
 	}

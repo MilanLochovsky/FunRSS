@@ -5,6 +5,7 @@
         android:persistent="false"
         android:title="Url feedu"
         android:dialogTitle="Zadejte url feedu"
+        android:defaultValue="http://"
         />
     <EditTextPreference android:key="label"
         android:persistent="false"

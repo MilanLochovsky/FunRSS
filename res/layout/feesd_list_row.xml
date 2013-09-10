@@ -34,6 +34,7 @@
         android:textColor="#040404"
         android:typeface="sans"
         android:textSize="15sp"
+        android:text="Nejaky nadpis"
         android:textStyle="bold"/>
  
     <!-- Artist Name -->
@@ -46,17 +47,35 @@
         android:textSize="12sp"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
+        android:layout_toLeftOf="@+id/numcountbg"
+        android:text="Nejakz super popis. Nejakz super popis. Nejakz super popis. Nejakz super popis. "
          />
  
  
-     <!-- Rightend Arrow -->
-     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/arrow"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:contentDescription= "@string/empty"
-        />
+    <LinearLayout
+        	android:id="@+id/numcountbg"
+			android:orientation="vertical"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+			android:background="@drawable/bg_rounded_red"
+			android:layout_marginLeft="5dip"
+			>
+
+			<TextView
+			    android:id="@+id/numcount"
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    android:padding="3dip"
+			    android:shadowColor="#ffffff"
+			    android:shadowDx="1"
+			    android:shadowDy="1"
+			    android:text="12"
+			    android:textColor="#eeeeee"
+			    android:textSize="12sp"
+			    />
+
+		</LinearLayout>
  
 </RelativeLayout>

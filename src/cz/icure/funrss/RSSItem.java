@@ -1,13 +1,27 @@
 package cz.icure.funrss;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+
+import android.text.method.DateTimeKeyListener;
 
 public class RSSItem implements Serializable {
+	private Integer id;
 	private String title;
 	private String url;
 	private String description;
 	private Date dateTime;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -29,6 +43,25 @@ public class RSSItem implements Serializable {
 	public Date getDateTime() {
 		return dateTime;
 	}
+
+	public void setDateTime(String dateTime)  {
+		final SimpleDateFormat formatter = new SimpleDateFormat(
+				"EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
+		try {
+			this.dateTime = formatter.parse(dateTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setDateTime(String dateTime, SimpleDateFormat formatter)  {
+		try {
+			this.dateTime = formatter.parse(dateTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
 	}
