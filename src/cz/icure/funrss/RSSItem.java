@@ -14,7 +14,14 @@ public class RSSItem implements Serializable {
 	private String url;
 	private String description;
 	private Date dateTime;
+	private String UID;
 	
+	public String getUID() {
+		return UID;
+	}
+	public void setUID(String uID) {
+		UID = uID;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -42,6 +49,10 @@ public class RSSItem implements Serializable {
 	}
 	public Date getDateTime() {
 		return dateTime;
+	}
+	
+	public Long getUnixTime() {
+		return (dateTime.getTime()/1000);
 	}
 
 	public void setDateTime(String dateTime)  {

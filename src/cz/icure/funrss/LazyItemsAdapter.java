@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +46,13 @@ public class LazyItemsAdapter extends BaseAdapter {
  
         TextView title = (TextView)vi.findViewById(R.id.items_title); // title
         TextView description = (TextView)vi.findViewById(R.id.items_description); // artist name
+        TextView date = (TextView)vi.findViewById(R.id.items_date); 
  
         RSSItem item = data.get(position);
  
         title.setText("" + item.getTitle());
         description.setText( "" + item.getDescription());
+        date.setText("" + DateFormat.format("hh:mm, dd.MM. yyyy ", item.getDateTime()));
         
         return vi;
 	}

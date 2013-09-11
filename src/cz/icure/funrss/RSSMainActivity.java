@@ -1,6 +1,8 @@
 package cz.icure.funrss;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cz.icure.funrss.RSSFeedSettingsActivity.DownloadFeedHeader;
@@ -93,7 +95,14 @@ public class RSSMainActivity extends Activity {
     		catch(Exception e) {
     			e.printStackTrace();
     		}
-        	return outList;
+    		
+    		Collections.sort(outList, new Comparator<RSSItem>() {
+    		    public int compare(RSSItem m1, RSSItem m2) {
+    		        return m2.getDateTime().compareTo(m1.getDateTime());
+    		    }
+    		});
+    		
+        	return outList.subList(0, 10);
     	}
     	
     	@Override

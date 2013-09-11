@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class RSSReaderDbHelper extends SQLiteOpenHelper {
 
-	    public static final int DATABASE_VERSION = 1;
+	    public static final int DATABASE_VERSION = 2;
 	    public static final String DATABASE_NAME = "FunRSS.db";
 
 	    private static final String SQL_CREATE_ENTRIES =
@@ -25,7 +25,7 @@ public class RSSReaderDbHelper extends SQLiteOpenHelper {
 	        + ItemsTable.COLUMN_NAME_TITLE + " STRING, "
 	        + ItemsTable.COLUMN_NAME_LINK + " STRING, "
 	        + ItemsTable.COLUMN_NAME_DESCRIPTION + " STRING, "
-	        + ItemsTable.COLUMN_NAME_PUBDATE + " STRING, "
+	        + ItemsTable.COLUMN_NAME_PUBDATE + " INTEGER, "
 	        + ItemsTable.COLUMN_NAME_AUTOHOR + " STRING, "
 	        + ItemsTable.COLUMN_NAME_GUID + " STRING);";
 

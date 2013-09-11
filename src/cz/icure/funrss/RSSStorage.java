@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.icure.funrss.RSSReaderUtils.FeedsTable;
+import cz.icure.funrss.RSSReaderUtils.ItemsTable;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,7 +20,6 @@ public class RSSStorage {
 	public RSSStorage(Context context) {
 		_dbHelper = new RSSReaderDbHelper(context);
 		_db = null;
-		//this.insertFeedRow("Nadpis", "Nejaky super popis feedu", "Link", "Image", "Copyright");
 	}
 	
 	private void closeDb() {
@@ -78,6 +78,27 @@ public class RSSStorage {
 	    	contentValues.put(FeedsTable.COLUMN_NAME_COPYRIGHT, copyright);
 	
 	    	status = _db.insert(FeedsTable.TABLE_NAME, null, contentValues);
+	    	
+	    	this.closeDb();
+    	}
+    	
+    	return status;
+    }
+    
+    public long insertItemRow(String title, String description, String link, String guid, Integer pubdate) {
+    	long status = -1;
+    	
+    	if(this.openWritalbeDb()) {
+	    	
+	    	ContentValues contentValues = new ContentValues();
+	    	
+	    	contentValues.put(ItemsTable.COLUMN_NAME_TITLE, title);
+	    	contentValues.put(ItemsTable.COLUMN_NAME_DESCRIPTION, description);
+	    	contentValues.put(ItemsTable.COLUMN_NAME_LINK, link);
+	    	contentValues.put(ItemsTable.COLUMN_NAME_PUBDATE, pubdate);
+	    	contentValues.put(ItemsTable.COLUMN_NAME_GUID, guid);
+	
+	    	status = _db.insert(ItemsTable.TABLE_NAME, null, contentValues);
 	    	
 	    	this.closeDb();
     	}
