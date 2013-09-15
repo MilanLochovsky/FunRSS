@@ -1,19 +1,12 @@
 package cz.icure.funrss;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import cz.icure.funrss.RSSFeedSettingsActivity.DownloadFeedHeader;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.sax.EndTextElementListener;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -33,13 +26,22 @@ public class RSSMainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         _feedsList=(ListView)findViewById(R.id.itemslist);
-        _data = new ArrayList<RSSItem>();
+        RSSStorage rss = new  RSSStorage(this);
+        _data = rss.getFirstXItems(10);
         _feedAdapter = new LazyItemsAdapter(this, _data);
         _feedsList.setAdapter(_feedAdapter);
         
     }
 
     @Override
+	protected void onResume() {
+		super.onResume();
+		RSSStorage rss = new  RSSStorage(this);
+        _data = rss.getFirstXItems(10);
+        _feedAdapter.notifyDataSetChanged(_data);
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -75,9 +77,9 @@ public class RSSMainActivity extends Activity {
     	
     	@Override
     	protected List<RSSItem> doInBackground(Void... params) {
-    		List<RSSItem> outList = new ArrayList<RSSItem>();
+    		RSSStorage rss = new  RSSStorage(getApplicationContext());
+    		
     		try {
-	    		RSSStorage rss = new  RSSStorage(getApplicationContext());
 	    		List<FeedItem> lfi = rss.getAllFeeds();
 	    		
 	    		RSSParser rsp = new RSSParser();
@@ -85,7 +87,7 @@ public class RSSMainActivity extends Activity {
 	    		for(int i = 0; i < lfi.size(); i++) {
 	    			try {
 		    			rsp.setUrl(lfi.get(i).getUrl());
-		    			outList.addAll(rsp.ParseFeedItems());
+		    			rss.insertItems(lfi.get(i).getId(), rsp.ParseFeedItems());
 	    			}
 	    			catch(Exception e) {
 	    				e.printStackTrace();
@@ -96,13 +98,7 @@ public class RSSMainActivity extends Activity {
     			e.printStackTrace();
     		}
     		
-    		Collections.sort(outList, new Comparator<RSSItem>() {
-    		    public int compare(RSSItem m1, RSSItem m2) {
-    		        return m2.getDateTime().compareTo(m1.getDateTime());
-    		    }
-    		});
-    		
-        	return outList.subList(0, 10);
+        	return rss.getFirstXItems(10);
     	}
     	
     	@Override

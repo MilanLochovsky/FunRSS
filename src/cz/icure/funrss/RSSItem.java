@@ -1,6 +1,9 @@
 package cz.icure.funrss;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +19,34 @@ public class RSSItem implements Serializable {
 	private Date dateTime;
 	private String UID;
 	
+	public RSSItem() {
+		
+	}
+	
+	public RSSItem(Integer id, String title, String url, String description, Date dateTime, String guid) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.url = url;
+		this.description = description;
+		this.dateTime = dateTime;
+		this.UID = guid;
+	}
+	
+	public RSSItem(Integer id, String title, String url, String description, Integer dateTime, String guid) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.url = url;
+		this.description = description;
+		this.dateTime = new java.util.Date((long)dateTime*1000);
+		this.UID = guid;
+	}
+	
 	public String getUID() {
+		if(UID == null || UID.trim() == "") {
+			return url;
+		}
 		return UID;
 	}
 	public void setUID(String uID) {
@@ -77,5 +107,25 @@ public class RSSItem implements Serializable {
 		this.dateTime = dateTime;
 	}
 	
+	private static String md5String(String text) { 
+		String digest = null;
+		
+		try { 
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] hash = md.digest(text.getBytes("UTF-8"));
+			StringBuilder sb = new StringBuilder(2*hash.length);
+			for(byte b : hash){ 
+				sb.append(String.format("%02x", b&0xff));
+			} 
+			
+			digest = sb.toString();
+		} catch (UnsupportedEncodingException ex) { 
+				ex.printStackTrace();
+		} catch (NoSuchAlgorithmException ex) { 
+			ex.printStackTrace();	
+		} 
+		
+		return digest; 
+	}	
 	
 }

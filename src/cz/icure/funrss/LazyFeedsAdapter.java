@@ -44,12 +44,14 @@ public class LazyFeedsAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.feesd_list_row, null);
  
         TextView title = (TextView)vi.findViewById(R.id.title); // title
+        TextView num = (TextView)vi.findViewById(R.id.numcount); // title
         TextView description = (TextView)vi.findViewById(R.id.description); // artist name
         ImageView thumb_image =(ImageView)vi.findViewById(R.id.list_image); // thumb image
  
         FeedItem item = data.get(position);
- 
+        RSSStorage rss = new RSSStorage(parent.getContext());
         title.setText(item.getTitle());
+        num.setText(String.valueOf(rss.getCointFeedItems(item.getId())));
         description.setText(item.getDescription());
         thumb_image.setImageResource(R.drawable.rihanna);
         return vi;

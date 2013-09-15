@@ -5,21 +5,24 @@ import cz.icure.funrss.RSSReaderUtils.ItemsTable;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class RSSReaderDbHelper extends SQLiteOpenHelper {
 
-	    public static final int DATABASE_VERSION = 2;
+	    public static final int DATABASE_VERSION = 3;
 	    public static final String DATABASE_NAME = "FunRSS.db";
 
-	    private static final String SQL_CREATE_ENTRIES =
+	    private static final String SQL_CREATE_ENTRIES_FEEDS =
 	        "CREATE TABLE " + FeedsTable.TABLE_NAME + " ("
 	        + FeedsTable._ID + " INTEGER PRIMARY KEY, "
 	        + FeedsTable.COLUMN_NAME_TITLE + " STRING, "
 	        + FeedsTable.COLUMN_NAME_LINK + " STRING, "
 	        + FeedsTable.COLUMN_NAME_DESCRIPTION + " STRING, "
 	        + FeedsTable.COLUMN_NAME_COPYRIGHT + " STRING, "
-	        + FeedsTable.COLUMN_NAME_IMAGE + " STRING);"
-	        + "CREATE TABLE " + ItemsTable.TABLE_NAME + " ("
+	        + FeedsTable.COLUMN_NAME_IMAGE + " STRING);";
+	    
+	        private static final String SQL_CREATE_ENTRIES_ITEMS =
+	        "CREATE TABLE " + ItemsTable.TABLE_NAME + " ("
 	        + ItemsTable._ID + " INTEGER PRIMARY KEY, "
 	        + ItemsTable.COLUMN_NAME_IDFEED + " INTEGER, "
 	        + ItemsTable.COLUMN_NAME_TITLE + " STRING, "
@@ -37,7 +40,10 @@ public class RSSReaderDbHelper extends SQLiteOpenHelper {
 	    }
 	    
 	    public void onCreate(SQLiteDatabase db) {
-	        db.execSQL(SQL_CREATE_ENTRIES);
+	    	Log.i("", SQL_CREATE_ENTRIES_FEEDS);
+	    	Log.i("", SQL_CREATE_ENTRIES_ITEMS);
+	        db.execSQL(SQL_CREATE_ENTRIES_FEEDS);
+	        db.execSQL(SQL_CREATE_ENTRIES_ITEMS);
 	    }
 	    
 	    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

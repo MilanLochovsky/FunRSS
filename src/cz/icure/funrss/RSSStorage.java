@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 public class RSSStorage {
 	
@@ -85,17 +86,18 @@ public class RSSStorage {
     	return status;
     }
     
-    public long insertItemRow(String title, String description, String link, String guid, Integer pubdate) {
+    public long insertItemRow(Integer idFeed, String title, String description, String link, String guid, Long pubdate) {
     	long status = -1;
     	
     	if(this.openWritalbeDb()) {
 	    	
 	    	ContentValues contentValues = new ContentValues();
 	    	
+	    	contentValues.put(ItemsTable.COLUMN_NAME_IDFEED, idFeed);
 	    	contentValues.put(ItemsTable.COLUMN_NAME_TITLE, title);
 	    	contentValues.put(ItemsTable.COLUMN_NAME_DESCRIPTION, description);
 	    	contentValues.put(ItemsTable.COLUMN_NAME_LINK, link);
-	    	contentValues.put(ItemsTable.COLUMN_NAME_PUBDATE, pubdate);
+	    	contentValues.put(ItemsTable.COLUMN_NAME_PUBDATE, pubdate.intValue());
 	    	contentValues.put(ItemsTable.COLUMN_NAME_GUID, guid);
 	
 	    	status = _db.insert(ItemsTable.TABLE_NAME, null, contentValues);
@@ -104,6 +106,56 @@ public class RSSStorage {
     	}
     	
     	return status;
+    }
+    
+    public Boolean isGUIDExists(int feedId, String guid) {
+    	this.openReadableDb();
+    	
+    	Cursor q = _db.query(ItemsTable.TABLE_NAME, new String[] {ItemsTable._ID}, ItemsTable.COLUMN_NAME_IDFEED + "=" + feedId + " AND " + ItemsTable.COLUMN_NAME_GUID + "=\"" + guid + "\"", null, null, null, null);
+    	if(q.getCount()>0) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
+    public Boolean insertItems(int feedId, List<RSSItem> items) {
+    	
+    	for(int i = 0; i < items.size(); i++) {
+    		RSSItem rsi = items.get(i);
+    		if(!this.isGUIDExists(feedId, rsi.getUID())) {
+    			this.insertItemRow(feedId, rsi.getTitle(), rsi.getDescription(), rsi.getUrl(), rsi.getUID(), rsi.getUnixTime());
+    		}
+    	}
+    	
+    	return false;
+    }
+    
+    public Integer getCointFeedItems(int idFeed) {
+    	this.openReadableDb();
+    	Cursor mCount= _db.rawQuery("select count(*) from " + ItemsTable.TABLE_NAME + " where " + ItemsTable.COLUMN_NAME_IDFEED + "=" + idFeed, null);
+    	mCount.moveToFirst();
+    	int count= mCount.getInt(0);
+    	this.closeDb();
+    	return count;
+    }
+    
+    public List<RSSItem> getFirstXItems(int num) {
+    	List<RSSItem> itm = new ArrayList<RSSItem>();
+    	
+    	this.openReadableDb();
+    	Cursor q = _db.query(ItemsTable.TABLE_NAME, new String[] {ItemsTable._ID, ItemsTable.COLUMN_NAME_TITLE, ItemsTable.COLUMN_NAME_LINK, ItemsTable.COLUMN_NAME_DESCRIPTION, ItemsTable.COLUMN_NAME_PUBDATE}, null, null, null, null, ItemsTable.COLUMN_NAME_PUBDATE + " DESC", String.valueOf(num));
+    	
+    	if (q.moveToFirst()) {
+    		do {
+	    		itm.add(new RSSItem(q.getInt(q.getColumnIndex(ItemsTable._ID)), q.getString(q.getColumnIndex(ItemsTable.COLUMN_NAME_TITLE)), q.getString(q.getColumnIndex(ItemsTable.COLUMN_NAME_LINK)), q.getString(q.getColumnIndex(ItemsTable.COLUMN_NAME_DESCRIPTION)), q.getInt(q.getColumnIndex(ItemsTable.COLUMN_NAME_PUBDATE)), null));
+    		} while(q.moveToNext());
+		}
+    	
+    	this.closeDb();
+    	
+		return itm;
     }
     
     public long deleteFeedRow(long id) {
